@@ -1,12 +1,11 @@
-#coding: utf-8
+# Minimal example of model in stanscofi
 
-## Minimal example of model in stanscofi
-
-from stanscofi.models import BasicModel
 import numpy as np
+from stanscofi.models import BasicModel
+
 
 class Constant(BasicModel):
-    '''
+    """
     A example model which always predicts the positive class. It is a subclass of stanscofi.models.BasicModel (please refer to the documentation of this class for more information)
 
     ...
@@ -34,9 +33,11 @@ class Constant(BasicModel):
         Preprocess and fit the model (not implemented in BasicModel)
     model_predict_proba()
         Outputs predictions of the fitted model on test_dataset (not implemented in BasicModel)
-    '''
+
+    """
+
     def __init__(self, params=None):
-        '''
+        """
         Creates an instance of benchscofi.Constant
 
         ...
@@ -45,7 +46,8 @@ class Constant(BasicModel):
         ----------
         params : dict
             dictionary which contains a key called "decision_threshold" with a float value which determines the decision threshold to label a positive class
-        '''
+
+        """
         params = params if (params is not None) else self.default_parameters()
         super(Constant, self).__init__(params)
         self.name = "Constant"
@@ -55,7 +57,7 @@ class Constant(BasicModel):
         return params
 
     def preprocessing(self, dataset, is_training=True):
-        '''
+        """
         Preprocessing step, which is empty for this model.
         The general rule is that, for training:
          - if the algorithm takes as input a matrix, then consider all ratings (y in {-1,0,1})
@@ -70,14 +72,15 @@ class Constant(BasicModel):
             dataset to convert
 
         Returns
-        ----------
+        -------
         res : list of a single stanscofi.Dataset
             input to the fitting method (should be a list of all arguments)
-        '''
+
+        """
         return [dataset]
-        
+
     def model_fit(self, train_dataset):
-        '''
+        """
         Fitting the Constant model on the training dataset (no fitting step here).
 
         ...
@@ -86,11 +89,11 @@ class Constant(BasicModel):
         ----------
         train_dataset : stanscofi.Dataset
             training dataset on which the model should fit
-        '''
-        pass
+
+        """
 
     def model_predict_proba(self, test_dataset):
-        '''
+        """
         Making predictions using the Constant model on the testing dataset.
 
         ...
@@ -99,6 +102,7 @@ class Constant(BasicModel):
         ----------
         test_dataset : stanscofi.Dataset
             testing dataset on which the model should be validated
-        '''
+
+        """
         scores = np.ones(test_dataset.ratings.shape)
-        return scores 
+        return scores

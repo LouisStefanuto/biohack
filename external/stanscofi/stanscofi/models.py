@@ -281,7 +281,7 @@ class BasicModel:
         """
         raise NotImplementedError
 
-    def model_fit(self):
+    def model_fit(self, *args, **kwargs):
         """
         Fitting the model on the training dataset.
 
@@ -297,7 +297,7 @@ class BasicModel:
         """
         raise NotImplementedError
 
-    def model_predict_proba(self):
+    def model_predict_proba(self, *args, **kwargs):
         """
         Making predictions using the model on the testing dataset.
 

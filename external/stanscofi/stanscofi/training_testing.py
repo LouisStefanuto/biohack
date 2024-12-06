@@ -247,7 +247,7 @@ def weakly_correlated_split(
             for c in range(1, len(np.unique(clusters)) + 1)
         }
         select_clust = np.max([k if (k <= train_nset) else -1 for k in nratings_train])
-        # print("#training=%d\t#clust=%d\t#clusters=%d" % (train_nset, select_clust, nratings_train[select_clust]))
+        # print("# training=%d\t#clust=%d\t#clusters=%d" % (train_nset, select_clust, nratings_train[select_clust]))
         # print(np.max([k if (k<select_clust) else -1 for k in nratings_train]), select_clust, np.min([k if (k>select_clust) else len(dataset.folds.row) for k in nratings_train]))
         cluster_size = nratings_train.get(select_clust, -1)
         # print(cluster_size)

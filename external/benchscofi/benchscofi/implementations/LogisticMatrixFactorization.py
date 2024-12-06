@@ -1,8 +1,7 @@
-#coding:utf-8
-
-## https://raw.githubusercontent.com/MrChrisJohnson/logistic-mf/90d4d7d44fcd0f373fbb5a827c2dc9f5da68d84b/logistic_mf.py
+# https://raw.githubusercontent.com/MrChrisJohnson/logistic-mf/90d4d7d44fcd0f373fbb5a827c2dc9f5da68d84b/logistic_mf.py
 
 import time
+
 import numpy as np
 
 
@@ -11,8 +10,8 @@ def load_matrix(filename, num_users, num_items):
     counts = np.zeros((num_users, num_items))
     total = 0.0
     num_zeros = num_users * num_items
-    for i, line in enumerate(open(filename, 'r')):
-        user, item, count = line.strip().split('\t')
+    for i, line in enumerate(open(filename)):
+        user, item, count = line.strip().split("\t")
         user = int(user)
         item = int(item)
         count = float(count)
@@ -20,17 +19,15 @@ def load_matrix(filename, num_users, num_items):
         total += count
         num_zeros -= 1
     alpha = num_zeros / total
-    print('alpha %.2f' % alpha)
+    print("alpha %.2f" % alpha)
     counts *= alpha
     t1 = time.time()
-    print('Finished loading matrix in %f seconds' % (t1 - t0))
+    print("Finished loading matrix in %f seconds" % (t1 - t0))
     return counts
 
 
-class LogisticMF():
-
-    def __init__(self, counts, num_factors, reg_param=0.6, gamma=1.0,
-                 iterations=30):
+class LogisticMF:
+    def __init__(self, counts, num_factors, reg_param=0.6, gamma=1.0, iterations=30):
         self.counts = counts
         self.num_users = counts.shape[0]
         self.num_items = counts.shape[1]
@@ -40,12 +37,9 @@ class LogisticMF():
         self.gamma = gamma
 
     def train_model(self):
-
         self.ones = np.ones((self.num_users, self.num_items))
-        self.user_vectors = np.random.normal(size=(self.num_users,
-                                                   self.num_factors))
-        self.item_vectors = np.random.normal(size=(self.num_items,
-                                                   self.num_factors))
+        self.user_vectors = np.random.normal(size=(self.num_users, self.num_factors))
+        self.item_vectors = np.random.normal(size=(self.num_items, self.num_factors))
         self.user_biases = np.random.normal(size=(self.num_users, 1))
         self.item_biases = np.random.normal(size=(self.num_items, 1))
 
@@ -78,7 +72,7 @@ class LogisticMF():
             self.item_biases += bias_step_size * item_bias_deriv
             t1 = time.time()
 
-            print('iteration %i finished in %f seconds' % (i + 1, t1 - t0))
+            print("iteration %i finished in %f seconds" % (i + 1, t1 - t0))
 
     def deriv(self, user):
         if user:
@@ -92,7 +86,7 @@ class LogisticMF():
         A += self.user_biases
         A += self.item_biases.T
         A = np.exp(A)
-        A /= (A + self.ones)
+        A /= A + self.ones
         A = (self.counts + self.ones) * A
 
         if user:
@@ -128,15 +122,15 @@ class LogisticMF():
         return loglik
 
     def print_vectors(self):
-        user_vecs_file = open('logmf-user-vecs-%i' % self.num_factors, 'w')
+        user_vecs_file = open("logmf-user-vecs-%i" % self.num_factors, "w")
         for i in range(self.num_users):
-            vec = ' '.join(map(str, self.user_vectors[i]))
-            line = '%i\t%s\n' % (i, vec)
+            vec = " ".join(map(str, self.user_vectors[i]))
+            line = "%i\t%s\n" % (i, vec)
             user_vecs_file.write(line)
         user_vecs_file.close()
-        item_vecs_file = open('logmf-item-vecs-%i' % self.num_factors, 'w')
+        item_vecs_file = open("logmf-item-vecs-%i" % self.num_factors, "w")
         for i in range(self.num_items):
-            vec = ' '.join(map(str, self.item_vectors[i]))
-            line = '%i\t%s\n' % (i, vec)
+            vec = " ".join(map(str, self.item_vectors[i]))
+            line = "%i\t%s\n" % (i, vec)
             item_vecs_file.write(line)
         item_vecs_file.close()

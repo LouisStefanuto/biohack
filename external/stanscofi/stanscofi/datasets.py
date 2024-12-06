@@ -281,13 +281,13 @@ class Dataset:
         print(sep[: len(sep) // 2])
         print("* Feature matrices:")
         if self.items.shape[0] > 0:
-            print("#Drug features: %d\tTotal #Drugs: %d" % (self.items.shape))
+            print("# Drug features: %d\tTotal #Drugs: %d" % (self.items.shape))
             print(
                 "Missing features: %.2f percent"
                 % (np.isnan(self.items.toarray()).mean() * 100)
             )
         if self.users.shape[0] > 0:
-            print("#Disease features: %d\tTotal #Disease: %d" % (self.users.shape))
+            print("# Disease features: %d\tTotal #Disease: %d" % (self.users.shape))
             print(
                 "Missing features: %.2f percent"
                 % (np.isnan(self.users.toarray()).mean() * 100)
